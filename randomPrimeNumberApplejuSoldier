@@ -1,0 +1,32 @@
+
+//tests if an integer is a prime number
+function isPrime(value) {
+    //through the for loop, will try and divide the integer by 2 all the way up to half the integer, if it at any time returns
+    //zero for a remainder, then we know it is not a prime number.
+    for(var i = 2; i < value/2; i++) {
+        if(value % i === 0) {
+            return false;
+        }
+    }
+    return value > 1;
+}
+
+
+//return a random large prime number given an ArrayBuffer variable 'var buffer = new ArrayBuffer(4)'
+function randomPrime(buffer)
+{
+    var randomLargeInt = new Uint32Array(buffer); //Create a new unsigned 32bit integer array using the ArrayBuffer
+    window.crypto.getRandomValues(randomLargeInt); //randomly creates a crypto strength integer into our variable
+    if (isPrime(randomLargeInt[0])) //tests to see if our new randomly created integer is a prime number
+    {
+        return randomLargeInt[0];        //if true: then return that integer
+    }
+    else
+        {
+            return randomPrime(buffer); //else: then rerun function randomPrime(buffer) and return it's result
+        }
+    
+}
+
+var buffer = new ArrayBuffer(4); //create a buffer
+alert( randomPrime(buffer) ); //throw up a pop up of the newly generated random prime number
